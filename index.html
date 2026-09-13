@@ -1,0 +1,460 @@
+
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ricette Fit</title>
+
+    <style>
+
+        :root {
+            --midnight: #22162b;
+            --amethyst: #451f55;
+            --grape: #724e91;
+            --rose: #e54f6d;
+            --saffron: #f8c630;
+            --white: #ffffff;
+            --light: #f7f4f8;
+            --text: #22162b;
+            --muted: #756d79;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: var(--light);
+            color: var(--text);
+        }
+
+        /* HEADER */
+
+        header {
+            background: linear-gradient(
+                135deg,
+                var(--midnight),
+                var(--amethyst)
+            );
+
+            color: white;
+            padding: 45px 20px;
+            text-align: center;
+        }
+
+        header h1,
+header p {
+    color: white;
+}
+
+        header h1 {
+            margin: 0;
+            font-size: 38px;
+            font-weight: 800;
+        }
+
+        header p {
+            margin: 12px 0 0;
+            color: #e9dff0;
+            font-size: 17px;
+        }
+
+        /* CONTENUTO */
+
+        main {
+            max-width: 900px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 22px;
+            padding: 28px;
+            margin-bottom: 22px;
+
+            box-shadow:
+                0 8px 30px rgba(34, 22, 43, 0.10);
+        }
+
+        h2 {
+            margin-top: 0;
+            color: var(--amethyst);
+        }
+
+        /* INPUT */
+
+        input {
+            width: 100%;
+            padding: 17px;
+
+            border: 2px solid #e4ddea;
+            border-radius: 14px;
+
+            font-size: 16px;
+            color: var(--text);
+
+            outline: none;
+            transition: 0.2s;
+        }
+
+        input:focus {
+            border-color: var(--grape);
+            box-shadow: 0 0 0 3px rgba(114, 78, 145, 0.12);
+        }
+
+        /* BUTTON */
+
+        button {
+            width: 100%;
+
+            margin-top: 14px;
+            padding: 17px;
+
+            border: none;
+            border-radius: 14px;
+
+            background: var(--rose);
+            color: white;
+
+            font-size: 17px;
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-1px);
+            background: #d94361;
+        }
+
+        /* RISULTATI */
+
+        #results {
+            margin-top: 20px;
+        }
+
+        .recipe {
+            background: #fff;
+
+            border: 1px solid #eee5f1;
+            border-radius: 18px;
+
+            padding: 20px;
+            margin-top: 16px;
+
+            transition: 0.2s;
+        }
+
+        .recipe:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 25px rgba(34, 22, 43, 0.10);
+        }
+
+        .recipe h3 {
+            margin-top: 0;
+            margin-bottom: 12px;
+
+            color: var(--amethyst);
+            font-size: 20px;
+        }
+
+        .nutrition {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+
+            margin: 12px 0;
+        }
+
+        .badge {
+            display: inline-block;
+
+            padding: 7px 10px;
+            border-radius: 999px;
+
+            background: #f3edf6;
+            color: var(--amethyst);
+
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .badge.kcal {
+            background: #fff4c9;
+            color: #725500;
+        }
+
+        .badge.protein {
+            background: #fce3e8;
+            color: #a52945;
+        }
+
+        .ingredients {
+            margin-top: 12px;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .recipe a {
+            display: inline-block;
+
+            margin-top: 16px;
+
+            padding: 10px 14px;
+
+            border-radius: 10px;
+
+            background: var(--amethyst);
+            color: white;
+
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .recipe a:hover {
+            background: var(--grape);
+        }
+
+        .error {
+            color: var(--rose);
+            font-weight: bold;
+        }
+
+        .empty {
+            color: var(--muted);
+        }
+
+        /* FOOTER */
+
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<header>
+
+    <h1>🍽️ Jacksballo trova ricette</h1>
+
+    <p>
+        Ciao, trova una ricetta con quello che hai in casa. Per il momento il motore cerca tra quelle di Scara, seguilo subito qui: https://www.youtube.com/@scaralegacy479
+    </p>
+
+</header>
+
+
+<main>
+
+    <div class="card">
+
+        <h2>🥕 Cosa hai in casa?</h2>
+
+        <input
+            id="ingredients"
+            type="text"
+            placeholder="Es. uovo, zucchina, pollo"
+        >
+
+        <button onclick="searchRecipes()">
+            🔎 Cerca ricette
+        </button>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>🍳 Ricette trovate</h2>
+
+        <div id="results">
+
+            <div class="empty">
+                Inserisci gli ingredienti per iniziare.
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<footer>
+
+    Ricette Fit · Powered by YouTube & Supabase
+
+</footer>
+
+
+<script>
+
+const API_URL = "https://cvkuhvnmnbflpndzjtaq.supabase.co/functions/v1/recipes-api";
+
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_XjcHqJtVM0bZ7tWvl7yR8A_DjxLx_Q_";
+
+async function searchRecipes() {
+
+    const input =
+        document.getElementById("ingredients");
+
+    const results =
+        document.getElementById("results");
+
+    const ingredients =
+        input.value.trim();
+
+
+    if (!ingredients) {
+
+        results.innerHTML =
+            '<div class="error">Inserisci almeno un ingrediente.</div>';
+
+        return;
+    }
+
+
+    results.innerHTML =
+        "🔎 Sto cercando le ricette...";
+
+
+    try {
+
+        const url =
+            API_URL +
+            "?ingredienti=" +
+            encodeURIComponent(ingredients);
+
+
+        const response =
+    await fetch(url, {
+        headers: {
+            "apikey": SUPABASE_PUBLISHABLE_KEY,
+            "Authorization": "Bearer " + SUPABASE_PUBLISHABLE_KEY
+        }
+    });
+
+
+        const data =
+            await response.json();
+
+
+        if (!data.success) {
+
+            throw new Error(
+                data.error || "Errore API"
+            );
+        }
+
+
+        if (
+            !data.recipes ||
+            data.recipes.length === 0
+        ) {
+
+            results.innerHTML =
+                '<div class="empty">😕 Nessuna ricetta trovata.</div>';
+
+            return;
+        }
+
+
+        results.innerHTML = "";
+
+
+        data.recipes.forEach(recipe => {
+
+            const div =
+                document.createElement("div");
+
+
+            div.className = "recipe";
+
+
+            div.innerHTML = `
+
+                <h3>
+                    ${recipe.title}
+                </h3>
+
+
+                <div class="nutrition">
+
+                    <span class="badge kcal">
+                        🔥 ${recipe.kcal_min ?? "-"} kcal
+                    </span>
+
+                    <span class="badge protein">
+                        💪 ${recipe.protein_g ?? "-"} g proteine
+                    </span>
+
+                    <span class="badge">
+                        🍞 ${recipe.carbs_g ?? "-"} g carbo
+                    </span>
+
+                    <span class="badge">
+                        🥑 ${recipe.fat_g ?? "-"} g grassi
+                    </span>
+
+                </div>
+
+
+                <div class="ingredients">
+
+                    Ingredienti trovati:
+                    <strong>
+                        ${recipe.found_ingredients.join(", ")}
+                    </strong>
+
+                </div>
+
+
+                <a
+                    href="${recipe.video_url}"
+                    target="_blank"
+                >
+                    ▶️ Guarda la ricetta
+                </a>
+
+            `;
+
+
+            results.appendChild(div);
+
+        });
+
+
+    } catch (error) {
+
+        console.error(error);
+
+
+        results.innerHTML =
+            '<div class="error">❌ Errore nel collegamento al server.</div>';
+
+    }
+
+}
+
+</script>
+
+</body>
+
+</html>
